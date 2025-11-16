@@ -1,11 +1,63 @@
-Problem Statement = ReWear – Community Clothing Exchange
+# 👗 ReWear – Sustainable Fashion Exchange Platform
 
-Team Members 
-1. Name = Satish Mewada
-   E-mail = mewadas494@gmail.com
+ReWear is a community-driven platform where users can **sell, buy, and exchange** pre-loved fashion items such as clothes, accessories, and shoes.  
+It promotes sustainability by encouraging reuse and reducing waste, while giving users a smooth and secure marketplace experience.
 
-2. Name = Soham Mewada
-   E-mail = soaham1006@gmail.com
+---
 
-3. Name = Neha Verma
-   E-mail = nv7281058@gmail.com
+## 🚀 Features
+
+### 🔐 Authentication
+- Register & Login (JWT Authentication)
+- Secure password hashing (bcrypt)
+- User dashboard
+- Admin role support
+
+### 🧑‍💼 Admin Panel
+- View pending items
+- Approve or reject user-submitted items
+- Fully protected admin-only access
+
+### 🛍️ Item Management
+- Add items with image, category, condition, description
+- Items go through "pending → approved" stages
+- Edit or delete own items
+- Items displayed only after admin approval
+
+### ❤️ Wishlist System
+- Add/remove items to/from wishlist
+- Wishlist stored in MongoDB
+- Fully populated item details in wishlist
+
+### 🛒 Buy / Sell Flow
+- Users can purchase approved items
+- Sold items automatically disappear from public listings
+- Track buyer with `soldTo` field
+- Separate dashboards for bought and sold items
+
+### 📸 Image Upload Support
+- Image upload using Multer
+- Static image serving from backend `/uploads`
+
+---
+
+## 🏗️ Tech Stack
+
+### 🔧 Backend
+- Node.js
+- Express.js
+- MongoDB (Mongoose)
+- Multer for image uploads
+- JWT for authentication
+
+### 🎨 Frontend
+- React.js
+- Axios / Fetch API
+- React Router
+- Bootstrap UI framework
+
+---
+
+## 📁 Folder Structure
+
+
