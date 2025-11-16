@@ -8,22 +8,31 @@ const BrowseItems = () => {
   const [category, setCategory] = useState('');
   const [size, setSize] = useState('');
 
-  
+  // -------------------------------
+  // Fetch all APPROVED items
+  // -------------------------------
+  const fetchItems = async () => {
+    try {
+      const res = await fetch("http://localhost:5000/api/items");
+      const data = await res.json();
+
+      if (!Array.isArray(data)) return;
+
+      setItems(data);
+      setFiltered(data);
+
+    } catch (err) {
+      console.error("Failed to fetch items:", err);
+    }
+  };
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
-    fetch('http://localhost:5000/api/items', {
-      headers: { Authorization: `Bearer ${token}` }
-    })
-      .then(res => res.json())
-      .then(data => {
-        setItems(data);
-        setFiltered(data);
-      })
-      .catch(err => console.error('Failed to fetch items:', err));
+    fetchItems();
   }, []);
-  
-  // Filter logic
+
+  // -------------------------------
+  // Filters Apply
+  // -------------------------------
   useEffect(() => {
     const result = items.filter(item =>
       item.title.toLowerCase().includes(search.toLowerCase()) &&
@@ -32,6 +41,24 @@ const BrowseItems = () => {
     );
     setFiltered(result);
   }, [search, category, size, items]);
+
+
+  // ⭐ BUY FUNCTION
+  const handleBuy = async (id) => {
+    const token = localStorage.getItem("token");
+
+    const res = await fetch(`http://localhost:5000/api/items/buy/${id}`, {
+      method: "PATCH",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    const data = await res.json();
+    alert(data.msg);
+
+    fetchItems();  // refresh after buy
+  };
 
   const uniqueCategories = [...new Set(items.map(i => i.category))];
   const uniqueSizes = [...new Set(items.map(i => i.size))];
@@ -48,19 +75,21 @@ const BrowseItems = () => {
             className="form-control"
             placeholder="Search by title..."
             value={search}
-            onChange={e => setSearch(e.target.value)}
+            onChange={(e) => setSearch(e.target.value)}
           />
         </div>
+
         <div className="col-md-4">
-          <select className="form-select" value={category} onChange={e => setCategory(e.target.value)}>
+          <select className="form-select" value={category} onChange={(e) => setCategory(e.target.value)}>
             <option value="">All Categories</option>
             {uniqueCategories.map(c => (
               <option key={c} value={c}>{c}</option>
             ))}
           </select>
         </div>
+
         <div className="col-md-4">
-          <select className="form-select" value={size} onChange={e => setSize(e.target.value)}>
+          <select className="form-select" value={size} onChange={(e) => setSize(e.target.value)}>
             <option value="">All Sizes</option>
             {uniqueSizes.map(s => (
               <option key={s} value={s}>{s}</option>
@@ -72,28 +101,46 @@ const BrowseItems = () => {
       {/* Items */}
       <div className="row g-4">
         {filtered.length === 0 ? (
-          <p>No items found for your criteria.</p>
+          <p>No items found.</p>
         ) : (
           filtered.map(item => (
             <div className="col-md-6 col-lg-4" key={item._id}>
               <div className="card h-100 shadow-sm">
+
                 <img
                   src={`http://localhost:5000${item.imageUrl}`}
-                  alt={item.title}
                   className="card-img-top"
-                  style={{ height: '200px', objectFit: 'contain' }}
+                  style={{ height: "200px", objectFit: "contain" }}
+                  alt={item.title}
                 />
+
                 <div className="card-body">
                   <h5 className="card-title">{item.title}</h5>
+
                   <p className="card-text">
                     <strong>Size:</strong> {item.size}<br />
                     <strong>Category:</strong> {item.category}<br />
                     <strong>Mode:</strong> {item.mode}
                   </p>
                 </div>
-                <div className="card-footer text-end bg-light">
-                  <Link to={`/item/${item._id}`} className="btn btn-outline-primary btn-sm">View</Link>
+
+                <div className="card-footer d-flex justify-content-between bg-light">
+                  <Link to={`/item/${item._id}`} className="btn btn-outline-primary btn-sm">
+                    View
+                  </Link>
+
+                  {!item.isSold ? (
+                    <button
+                      className="btn btn-success btn-sm"
+                      onClick={() => handleBuy(item._id)}
+                    >
+                      Buy Now
+                    </button>
+                  ) : (
+                    <span className="badge bg-danger">Sold</span>
+                  )}
                 </div>
+
               </div>
             </div>
           ))

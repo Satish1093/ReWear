@@ -4,12 +4,45 @@ import { Link } from 'react-router-dom';
 const LandingPage = () => {
   const [featuredItems, setFeaturedItems] = useState([]);
 
+  // Fetch featured items
+  const fetchFeaturedItems = async () => {
+    try {
+      const res = await fetch("http://localhost:5000/api/items/featured");
+      const data = await res.json();
+      setFeaturedItems(data);
+    } catch (err) {
+      console.error("Failed to load featured items:", err);
+    }
+  };
+
   useEffect(() => {
-    fetch('http://localhost:5000/api/items/featured')
-      .then(res => res.json())
-      .then(data => setFeaturedItems(data))
-      .catch(err => console.error('Failed to load featured items:', err));
+    fetchFeaturedItems();
   }, []);
+
+  // BUY FUNCTION WITH LOGIN CHECK
+  const handleBuy = async (id) => {
+    try {
+      const token = localStorage.getItem("token");
+
+      if (!token) {
+        return alert("Please login to buy items.");
+      }
+
+      const res = await fetch(`http://localhost:5000/api/items/buy/${id}`, {
+        method: "PATCH",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      const data = await res.json();
+      alert(data.msg);
+
+      fetchFeaturedItems(); // refresh after buy
+    } catch (err) {
+      console.error("Buy error:", err);
+    }
+  };
 
   return (
     <div className="container py-5">
@@ -31,21 +64,37 @@ const LandingPage = () => {
           featuredItems.map(item => (
             <div className="col-md-4" key={item._id}>
               <div className="card h-100 shadow-sm">
+
                 <img
                   src={`http://localhost:5000${item.imageUrl}`}
                   className="card-img-top"
                   alt={item.title}
                   style={{ height: '250px', objectFit: 'contain' }}
                 />
+
                 <div className="card-body">
                   <h5 className="card-title">{item.title}</h5>
                   <p className="card-text text-muted">
                     Size {item.size} • {item.points} Points
                   </p>
-                  <Link to={`/item/${item._id}`} className="btn btn-sm btn-outline-primary">
+
+                  <Link to={`/item/${item._id}`} className="btn btn-sm btn-outline-primary me-2">
                     View Details
                   </Link>
+
+                  {/* BUY BUTTON */}
+                  {!item.isSold ? (
+                    <button
+                      className="btn btn-sm btn-success"
+                      onClick={() => handleBuy(item._id)}
+                    >
+                      Buy Now
+                    </button>
+                  ) : (
+                    <span className="badge bg-danger">Sold</span>
+                  )}
                 </div>
+
               </div>
             </div>
           ))
@@ -53,6 +102,7 @@ const LandingPage = () => {
           <div className="alert alert-info">No featured items available.</div>
         )}
       </div>
+
     </div>
   );
 };
