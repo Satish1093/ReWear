@@ -11,7 +11,10 @@ const protect = (req, res, next) => {
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    req.user = decoded.id; // attaches user ID to request
+
+    // IMPORTANT: user ke andar sirf userId store hoga
+    req.user = decoded.id;
+
     next();
   } catch (err) {
     return res.status(401).json({ msg: 'Invalid token' });

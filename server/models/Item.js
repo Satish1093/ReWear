@@ -42,10 +42,11 @@ const itemSchema = new mongoose.Schema({
     ref: 'User',
     required: true,
   },
-  status: {
-    type: String,
-    enum: ['Available', 'Swapped'],
-    default: 'Available',
+ status: {
+  type: String,
+  enum: ['Available', 'Swapped', 'Pending'],
+  default: 'Pending',
+
   },
   featured: {
     type: Boolean,

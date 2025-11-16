@@ -21,7 +21,15 @@ const userSchema = new mongoose.Schema({
   points: {
     type: Number,
     default: 100,
- },
+  },
+
+  // ⭐ ADD THIS
+  wishlist: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Item',
+    }
+  ],
 });
 
 const User = mongoose.model('User', userSchema);
