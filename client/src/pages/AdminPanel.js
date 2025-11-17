@@ -18,7 +18,7 @@ const AdminPanel = () => {
     // Fetch pending items
     const fetchPendingItems = async () => {
       try {
-        const res = await fetch("http://localhost:5000/api/admin/pending-items", {
+        const res = await fetch("https://rewear-z7yj.onrender.com/api/admin/pending-items", {
           headers: { Authorization: `Bearer ${token}` },
         });
 
@@ -39,7 +39,7 @@ const AdminPanel = () => {
   // APPROVE ITEM
   const handleApprove = async (id) => {
     try {
-      const res = await fetch(`http://localhost:5000/api/admin/approve-item/${id}`, {
+      const res = await fetch(`https://rewear-z7yj.onrender.com/api/admin/approve-item/${id}`, {
         method: "PATCH",
         headers: { Authorization: `Bearer ${token}` },
       });
@@ -56,7 +56,7 @@ const AdminPanel = () => {
   // REJECT ITEM
   const handleReject = async (id) => {
     try {
-      const res = await fetch(`http://localhost:5000/api/items/${id}`, {
+      const res = await fetch(`https://rewear-z7yj.onrender.com/api/items/${id}`, {
         method: "DELETE",
         headers: { Authorization: `Bearer ${token}` },
       });
@@ -84,7 +84,7 @@ const AdminPanel = () => {
               <div className="card h-100 shadow-sm">
 
                 <img
-                  src={`http://localhost:5000${item.imageUrl}`}
+                  src={`https://rewear-z7yj.onrender.com${item.imageUrl}`}
                   alt={item.title}
                   className="card-img-top"
                   style={{ height: "200px", objectFit: "cover" }}

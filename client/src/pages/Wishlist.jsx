@@ -6,7 +6,7 @@ const Wishlist = () => {
 
   useEffect(() => {
     const token = localStorage.getItem('token');
-    fetch('http://localhost:5000/api/wishlist', {
+    fetch('https://rewear-z7yj.onrender.com/api/wishlist', {
       headers: { Authorization: `Bearer ${token}` }
     })
       .then(res => res.json())

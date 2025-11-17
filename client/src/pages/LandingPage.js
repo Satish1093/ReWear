@@ -7,7 +7,7 @@ const LandingPage = () => {
   // Fetch featured items
   const fetchFeaturedItems = async () => {
     try {
-      const res = await fetch("http://localhost:5000/api/items/featured");
+      const res = await fetch("https://rewear-z7yj.onrender.com/api/items/featured");
       const data = await res.json();
       setFeaturedItems(data);
     } catch (err) {
@@ -28,7 +28,7 @@ const LandingPage = () => {
         return alert("Please login to buy items.");
       }
 
-      const res = await fetch(`http://localhost:5000/api/items/buy/${id}`, {
+      const res = await fetch(`https://rewear-z7yj.onrender.com/api/items/buy/${id}`, {
         method: "PATCH",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -66,7 +66,7 @@ const LandingPage = () => {
               <div className="card h-100 shadow-sm">
 
                 <img
-                  src={`http://localhost:5000${item.imageUrl}`}
+                  src={`https://rewear-z7yj.onrender.com${item.imageUrl}`}
                   className="card-img-top"
                   alt={item.title}
                   style={{ height: '250px', objectFit: 'contain' }}

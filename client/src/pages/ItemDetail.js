@@ -9,7 +9,7 @@ const ItemDetail = () => {
   // Fetch item details
   const fetchItemDetails = async () => {
     try {
-      const res = await fetch(`http://localhost:5000/api/items/${id}`);
+      const res = await fetch(`https://rewear-z7yj.onrender.com/api/items/${id}`);
       const data = await res.json();
 
       if (data && data._id) {
@@ -42,7 +42,7 @@ const ItemDetail = () => {
     }
 
     try {
-      const res = await fetch(`http://localhost:5000/api/items/buy/${item._id}`, {
+      const res = await fetch(`https://rewear-z7yj.onrender.com/api/items/buy/${item._id}`, {
         method: "PATCH",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -69,7 +69,7 @@ const ItemDetail = () => {
         {/* IMAGE */}
         <div className="col-md-6 text-center">
           <img
-            src={`http://localhost:5000${item.imageUrl}`}
+            src={`https://rewear-z7yj.onrender.com${item.imageUrl}`}
             onError={(e) => (e.target.src = "/fallback.jpg")}
             alt={item.title}
             className="img-fluid rounded shadow"

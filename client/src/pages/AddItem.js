@@ -48,7 +48,7 @@ const AddItem = () => {
       }
       formData.append('image', imageFile);
       
-      const res = await fetch('http://localhost:5000/api/items', {
+      const res = await fetch('https://rewear-z7yj.onrender.com/api/items', {
         method: 'POST',
         headers: {
           Authorization: `Bearer ${token}`

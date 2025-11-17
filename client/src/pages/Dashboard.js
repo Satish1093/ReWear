@@ -12,7 +12,7 @@ const Dashboard = () => {
 
     if (storedUser) setUser(storedUser);
 
-    fetch('http://localhost:5000/api/items/my-items', {
+    fetch('https://rewear-z7yj.onrender.com/api/items/my-items', {
       headers: {
         Authorization: `Bearer ${token}`
       }
@@ -21,7 +21,7 @@ const Dashboard = () => {
       .then(data => setItems(data))
       .catch(err => console.error('Failed to fetch items:', err));
 
-    fetch('http://localhost:5000/api/wishlist', {
+    fetch('https://rewear-z7yj.onrender.com/api/wishlist', {
       headers: {
         Authorization: `Bearer ${token}`
       }
@@ -33,7 +33,7 @@ const Dashboard = () => {
 
   const toggleWishlist = async (itemId) => {
     const token = localStorage.getItem('token');
-    await fetch(`http://localhost:5000/api/wishlist/toggle/${itemId}`, {
+    await fetch(`https://rewear-z7yj.onrender.com/api/wishlist/toggle/${itemId}`, {
       method: 'POST',
       headers: { Authorization: `Bearer ${token}` }
     });
@@ -65,7 +65,7 @@ const Dashboard = () => {
           {Array.isArray(items) && items.map(item => (
             <div className="col-md-6 col-lg-4" key={item._id}>
               <div className="card h-100 shadow-sm border-0">
-                <img src={`http://localhost:5000${item.imageUrl}`} alt={item.title}
+                <img src={`https://rewear-z7yj.onrender.com${item.imageUrl}`} alt={item.title}
                   className="card-img-top" style={{ height: '200px', objectFit: 'contain' }} />
                 <div className="card-body">
                   <h6 className="card-title fw-semibold d-flex justify-content-between">

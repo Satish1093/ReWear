@@ -13,7 +13,7 @@ const BrowseItems = () => {
   // -------------------------------
   const fetchItems = async () => {
     try {
-      const res = await fetch("http://localhost:5000/api/items");
+      const res = await fetch("https://rewear-z7yj.onrender.com/api/items");
       const data = await res.json();
 
       if (!Array.isArray(data)) return;
@@ -47,7 +47,7 @@ const BrowseItems = () => {
   const handleBuy = async (id) => {
     const token = localStorage.getItem("token");
 
-    const res = await fetch(`http://localhost:5000/api/items/buy/${id}`, {
+    const res = await fetch(`https://rewear-z7yj.onrender.com/api/items/buy/${id}`, {
       method: "PATCH",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -108,7 +108,7 @@ const BrowseItems = () => {
               <div className="card h-100 shadow-sm">
 
                 <img
-                  src={`http://localhost:5000${item.imageUrl}`}
+                  src={`https://rewear-z7yj.onrender.com${item.imageUrl}`}
                   className="card-img-top"
                   style={{ height: "200px", objectFit: "contain" }}
                   alt={item.title}
