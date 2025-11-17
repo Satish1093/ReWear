@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { useParams } from 'react-router-dom';
 
 const ItemDetail = () => {
@@ -6,8 +6,8 @@ const ItemDetail = () => {
   const [item, setItem] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  // Fetch item details
-  const fetchItemDetails = async () => {
+  // ✅ FIX: Make function stable with useCallback (Netlify-safe)
+  const fetchItemDetails = useCallback(async () => {
     try {
       const res = await fetch(`https://rewear-z7yj.onrender.com/api/items/${id}`);
       const data = await res.json();
@@ -24,11 +24,12 @@ const ItemDetail = () => {
       setItem(null);
       setLoading(false);
     }
-  };
+  }, [id]);
 
+  // ✅ FIX: useEffect depends on useCallback
   useEffect(() => {
     fetchItemDetails();
-  }, [id]);
+  }, [fetchItemDetails]);
 
   if (loading) return <div className="container py-5">Loading...</div>;
   if (!item) return <div className="container py-5">Item not found</div>;
@@ -58,7 +59,6 @@ const ItemDetail = () => {
     }
   };
 
-  // Swap + Redeem (demo)
   const handleSwapRequest = () => alert("Swap request sent!");
   const handleRedeem = () => alert(`You redeemed this item for ${item.points} points.`);
 
@@ -95,7 +95,7 @@ const ItemDetail = () => {
             <small>{item.owner?.email}</small>
           </p>
 
-          {/* MODE BASED ⇒ SWAP OR REDEEM */}
+          {/* SWAP / REDEEM */}
           {item.mode === "swap" ? (
             <button className="btn btn-primary mt-3" onClick={handleSwapRequest}>
               🔁 Propose Swap
